@@ -8,7 +8,7 @@ async function request(resource, options) {
 }
 
 const path = `../${decodeURIComponent(location.hash.slice(1))}`;
-const markdown = await request(path).then(response => response.text());
+const markdown = request(path).then(response => response.text());
 
 let scopes = import('https://esm.sh/linguist-languages').then(languages => {
 	const map = new Map();
@@ -33,10 +33,10 @@ let highlighter = highlighterImport.then(module => module.createStarryNight([]))
 const hastToHtml = import('https://cdn.jsdelivr.net/npm/hast-util-to-html/+esm').then(module => module.toHtml);
 
 const pre = document.createElement('pre');
-pre.textContent = markdown;
+pre.textContent = await markdown;
 document.body.append(pre);
 
-document.body.innerHTML = `<main class="markdown-body">${(await marked).parse(markdown)}</main>`;
+document.body.innerHTML = `<main class="markdown-body">${(await marked).parse(await markdown)}</main>`;
 document.querySelectorAll('a').forEach(link => {link.target = '_blank'});
 
 function getFlag(code) {
