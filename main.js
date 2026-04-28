@@ -1,5 +1,4 @@
 "use strict";
-window.onhashchange = () => location.reload();
 const marked = import('https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js').then(module => new module.Marked());
 
 async function request(resource, options) {
@@ -28,10 +27,12 @@ let scopes = import('https://esm.sh/linguist-languages').then(languages => {
 
 const highlighterUrl = 'https://esm.sh/@wooorm/starry-night/lib/index.js';
 const highlighterImport = import(highlighterUrl);
-let highlighterVersion = highlighterImport.then(async () => (await fetch(highlighterUrl, {cache: "force-cache"})).headers.get("x-esm-path").match(/@(\d[^/]+)/)[1]);
+let highlighterVersion = highlighterImport.then(async () =>
+	(await fetch(highlighterUrl, {cache: "force-cache"})).headers.get("x-esm-path").match(/@(\d[^/]+)/)[1]);
 let highlighter = highlighterImport.then(module => module.createStarryNight([]));
 const hastToHtml = import('https://cdn.jsdelivr.net/npm/hast-util-to-html/+esm').then(module => module.toHtml);
 
+window.onhashchange = () => location.reload();
 const pre = document.createElement('pre');
 pre.textContent = await markdown;
 document.body.append(pre);
