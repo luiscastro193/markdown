@@ -40,7 +40,7 @@ document.body.innerHTML = `<main class="markdown-body">${(await marked).parse(aw
 document.querySelectorAll('a').forEach(link => {link.target = '_blank'});
 
 function getFlag(code) {
-	return code.classList[0].replace(/^language-/, '');
+	return code.classList[0].replace(/^language-/, '').toLowerCase();
 }
 
 const blocks = [...document.querySelectorAll('code[class^="language-"]')];
