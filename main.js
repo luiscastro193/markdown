@@ -8,7 +8,7 @@ async function request(resource, options) {
 }
 
 const path = `../${decodeURIComponent(location.hash.slice(1))}`;
-const markdown = request(path).then(response => response.text());
+const markdown = request(path, {priority: 'high'}).then(response => response.text());
 
 let scopes = import('https://esm.sh/linguist-languages').then(languages => {
 	const map = new Map();
